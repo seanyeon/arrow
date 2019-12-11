@@ -666,7 +666,7 @@ class Arrow(object):
         """
 
         relative_kwargs = {}
-        additional_attrs = ["weeks", "quarters", "weekday"]
+        additional_attrs = ["days", "weeks", "quarters", "weekday"]
 
         for key, value in kwargs.items():
 
@@ -1443,13 +1443,16 @@ class Arrow(object):
 
         if name in cls._ATTRS:
             return name, "{}s".format(name), 1
-
+        elif name in ["day", "days"]:
+            return "day", "days", 1
         elif name in ["week", "weeks"]:
             return "week", "weeks", 1
         elif name in ["quarter", "quarters"]:
             return "quarter", "months", 3
 
-        supported = ", ".join(cls._ATTRS + ["week", "weeks"] + ["quarter", "quarters"])
+        supported = ", ".join(
+            cls._ATTRS + ["day", "days"] + ["week", "weeks"] + ["quarter", "quarters"]
+        )
         raise AttributeError(
             "range/span over frame {} not supported. Supported frames: {}".format(
                 name, supported
